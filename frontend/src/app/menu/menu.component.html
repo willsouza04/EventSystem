@@ -1,0 +1,60 @@
+<style>
+  .navbar {
+      margin-bottom: 0;
+      background-color: #303030;
+      z-index: 9999;
+      border: 0;
+      font-size: 12px !important;
+      line-height: 1.42857143 !important;
+      letter-spacing: 4px;
+      border-radius: 0;
+  }
+  .navbar li a, .navbar .navbar-brand {
+      color: #fff !important;
+  }
+  .navbar-nav li a:hover, .navbar-nav li.active a {
+      color: #708090 !important;
+      background-color: #fff !important;
+  }
+  .navbar-default .navbar-toggle {
+      border-color: transparent;
+      color: #fff !important;
+  }
+  .jumbotron {
+      background-color:#708090;
+      color: #ffffff;
+      padding: 100px 25px;
+  }
+  .logo-nav {
+      color: #4682B4;
+      font-size: 45px;
+  }
+</style>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" (click)="isCollapsed = !isCollapsed">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href=""><span class="glyphicon glyphicon-education logo-nav"></span></a>
+    </div>
+    <div class="navbar-collapse collapse" [collapse]="!isCollapsed">
+      <ul class="nav navbar-nav navbar-right">
+        <li [ngClass]="{active: activeRoute('/home')}">
+          <a routerLink="home" (click)="isCollapsed = !isCollapsed">HOME</a>
+        </li>
+        <li [ngClass]="{active: activeRoute('/eventos')}">
+          <a routerLink="eventos" (click)="isCollapsed = !isCollapsed">EVENTOS</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="jumbotron text-center ">
+  <h1>EventSystem</h1>
+  <p>Somos especializados em eventos haha!</p>
+</div>

@@ -1,0 +1,273 @@
+<style>
+  .table-dark{
+    color: #ffffff;
+    background-color: #505050;
+    font-size: 16px;
+  }
+  .thead-dark{
+    background-color: #202020;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .logo-novo{
+    padding: 15px;
+    color: #4682B4;
+    font-size: 25px;
+  }
+  .logo-desconvidar{
+    color: #4682B4;
+  }
+  .form-style{
+    padding: 5% 20%;
+    color: #202020;
+    font-size: 18px;
+  }
+  .form-space{
+    padding: 15px;
+  }
+  .form-button{
+    background-color:#708090;
+    color: #ffffff;
+  }
+  .descricao{
+    color: #303050;
+    font-size: 16px;
+  }
+  .container img {
+    padding: 25px;
+    max-width:320px;
+    max-height:240px;
+    width: auto;
+    height: auto;
+}
+</style>
+
+<div id="error" class="alert alert-danger alert-dismissible" style="display: none;" align="center">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="CloseAlert()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>Erro!</strong> Não foi possível realizar o cadastro!
+</div>
+
+<div id="success" class="alert alert-success alert-dismissible" style="display: none;" align="center">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="CloseAlert()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>Sucesso!</strong> O cadastro foi realizado com sucesso!
+</div>
+
+<div id="alterarEvento" style="display: none;">
+  <h1 align="center" style="font-weight: bold;">ALTERAR EVENTO</h1>
+  <div class="form-style">
+    <div class="row form-space">
+      <label class="col-sm-2 col-md-1">Nome</label>
+      <div class="col-sm-10 col-md-11">
+        <input type="text" class="form-control" [(ngModel)]="evento.nome">
+      </div>
+    </div>
+    <div class="row form-space">
+      <label class="col-sm-2 col-md-1">Local</label>
+      <div class="col-sm-8 col-md-9">
+        <select class="form-control" [(ngModel)]="localEvento">
+          <option *ngFor="let local of locais">{{local.id}} - {{local.nome}} - {{local.cidade}}</option>
+        </select>
+      </div>
+      <div class="col-sm-2 col-md-2">
+        <button type="button" class="btn btn-default" (click)="AdicionarLocal()">Adicionar</button>
+      </div>
+    </div>
+    <div class="row form-space">
+      <label class="col-sm-2 col-md-1">Data</label>
+      <div class="col-sm-4 col-md-5">
+        <input class="form-control" type="date" value="2011-08-19" id="example-date-input" [(ngModel)]="dataEvento">
+      </div>
+      <label for="example-time-input" class="col-sm-2 col-md-1">Hora</label>
+      <div class="col-sm-4 col-md-5">
+        <input class="form-control" type="time" value="00:00" id="example-time-input"[(ngModel)]="evento.hora">
+      </div>
+    </div>
+  </div>
+  <div class="form-space" align="center">
+    <div class="form-space">
+      <button type="button" class="btn form-button" (click)="SalvarEvento()">Salvar</button>
+      <button type="button" class="btn form-button" (click)="VoltarAlterarEvento()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div id="cadastroLocal" style="display: none;">
+  <h1 align="center" style="font-weight: bold;">NOVO LOCAL</h1>
+  <div class="form-style">
+    <div class="row form-space">
+      <label class="col-sm-2 col-md-1">Nome</label>
+      <div class="col-sm-10 col-md-11">
+        <input type="text" class="form-control" [(ngModel)]="local.nome">
+      </div>
+    </div>
+    <div class="row form-space">
+      <label class="col-sm-2 col-md-1">Rua</label>
+      <div class="col-sm-6 col-md-7">
+        <input type="text" class="form-control" [(ngModel)]="local.rua">
+      </div>
+      <label class="col-sm-2 col-md-2">Numero</label>
+      <div class="col-sm-2 col-md-2">
+        <input type="text" class="form-control" [(ngModel)]="numeroLocal">
+      </div>
+    </div>
+    <div class="row form-space">
+      <label class="col-sm-2 col-md-1">Cidade</label>
+      <div class="col-sm-10 col-md-11">
+        <input type="text" class="form-control" [(ngModel)]="local.cidade">
+      </div>
+    </div>
+  </div>
+  <div class="form-space" align="center">
+    <div class="form-space">
+      <button type="button" class="btn form-button" (click)="SalvarLocal()">Salvar</button>
+      <button type="button" class="btn form-button" (click)="VoltarLocal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div id="Convidar" style="display: none;">
+  <h1 align="center" style="font-weight: bold; padding: 50px;">CONVIDAR</h1>
+  <div class="logo-novo" align="center">
+    <div (click)="NovoConvidado()">
+      <span class="glyphicon glyphicon-floppy-disk"><h4>Adicionar</h4></span>
+    </div>
+  </div>
+  <div >
+    <table class="table table-dark">
+      <thead class="thead-dark">
+        <tr>
+          <td align="center">Nome</td>
+          <td align="center">idade</td>
+          <td align="center">cpf</td>
+        </tr>
+      </thead>
+      <tbody class="tbody-dark">
+        <tr *ngFor="let convidado of notConvidados" (click)="Convidar(convidado.id)">
+          <td align="center">
+            {{convidado.nome}}
+          </td>
+          <td align="center">
+            {{convidado.idade}}
+          </td>
+          <td align="center">
+            {{convidado.cpf}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="form-space" align="center">
+    <div class="form-space">
+      <button type="button" class="btn form-button" (click)="VotarConvidar()">Voltar</button>
+    </div>
+  </div>
+</div>
+
+<div id="cadastroConvidado" style="display: none;">
+  <h1 align="center" style="font-weight: bold;">NOVO CONVIDADO</h1>
+  <div class="form-style">
+    <div class="row form-space">
+      <label class="col-sm-2 col-md-1">Nome</label>
+      <div class="col-sm-10 col-md-11">
+        <input type="text" class="form-control" [(ngModel)]="convidado.nome">
+      </div>
+    </div>
+    <div class="row form-space">
+      <label class="col-sm-2 col-md-1">Idade</label>
+      <div class="col-sm-4 col-md-5">
+        <input type="text" class="form-control" [(ngModel)]="idadeConvidado">
+      </div>
+      <label class="col-sm-2 col-md-1">CPF</label>
+      <div class="col-sm-4 col-md-5">
+        <input type="text" class="form-control" [(ngModel)]="convidado.cpf">
+      </div>
+    </div>
+  </div>
+  <div class="form-space" align="center">
+    <div class="form-space">
+      <button type="button" class="btn form-button" (click)="SalvarConvidado()">Salvar</button>
+      <button type="button" class="btn form-button" (click)="VoltarConvidado()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div id="lista" style="display: block;">
+  <div class="container" align="center">
+    <img src="../../assets/imgEvent.jpg" class="img-circle" alt="Evento">
+  </div>
+  <h1 align="center" style="font-weight: bold;">{{evento.nome}}</h1>
+
+  <div class="row descricao" align="center" style="padding: 5%;">
+    <h4 class="col-sm-12">Data: {{evento.data}}</h4>
+    <h4 class="col-sm-12">Hora: {{evento.hora}}</h4>
+    <h4 class="col-sm-12" style="padding: 5%;">Local: {{local.nome}}</h4>
+    <h4 class="col-sm-12">Rua: {{local.rua}}</h4>
+    <h4 class="col-sm-12">Número: {{local.numero}}</h4>
+    <h4 class="col-sm-12">Cidade: {{local.cidade}}</h4>
+  </div>
+
+  <div id='ButtonsEvento' style="display: block;" class="logo-novo row" align="center">
+    <div class="col-sm-5"></div>
+    <div class="col-sm-1" (click)="AlterarEvento()">
+      <span class="glyphicon glyphicon-pencil"><h4>Alterar</h4></span>
+    </div>
+    <div class="col-sm-1" (click)="RemoverEvento()">
+      <span class="glyphicon glyphicon-remove"><h4>Remover</h4></span>
+    </div>
+  </div>
+
+  <div id="RemoverEvento" style="display: none;" class="row">
+    <div class="col-sm-4"></div>
+    <div class="panel panel-default col-sm-4" style="padding: 50px;"align="center">
+      <h3 align="center" style="font-weight: bold;">Quer realmente excluir esse evento</h3>
+      <button type="button" class="btn form-button" (click)="ConfirmarRemover()">Sim</button>
+      <button type="button" class="btn form-button" (click)="VoltarRemover()">Cancelar</button>
+    </div>
+  </div>
+
+  <div style="padding: 50px;"></div>
+
+  <h1 align="center" style="font-weight: bold;">CONVIDADOS</h1>
+  <div class="logo-novo" align="center">
+    <div (click)="AbrirConvidar()">
+      <span class="glyphicon glyphicon-plus"><h4>Convidar</h4></span>
+    </div>
+  </div>
+
+  <table class="table table-dark">
+    <thead class="thead-dark">
+      <tr>
+        <td class="col-sm-3" align="center">Nome</td>
+        <td class="col-sm-3" align="center">idade</td>
+        <td class="col-sm-3" align="center">cpf</td>
+        <td class="col-sm-3" align="center">Remover</td>
+      </tr>
+    </thead>
+    <tbody class="tbody-dark">
+      <tr *ngFor="let convidado of convidados">
+        <td align="center" (click)="AbrirConvidado(convidado.id)">
+          {{convidado.nome}}
+        </td>
+        <td align="center" (click)="AbrirConvidado(convidado.id)">
+          {{convidado.idade}}
+        </td>
+        <td align="center" (click)="AbrirConvidado(convidado.id)">
+          {{convidado.cpf}}
+        </td>
+        <td align="center">
+          <span class="glyphicon glyphicon-remove logo-desconvidar" (click)="RemoverConvite(convidado.id)">
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="form-space" align="center">
+    <div class="form-space">
+      <button type="button" class="btn form-button" (click)="VoltarParaEventos()">Voltar</button>
+    </div>
+  </div>
+</div>
