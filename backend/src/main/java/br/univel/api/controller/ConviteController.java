@@ -14,7 +14,7 @@ public class ConviteController {
 	@Autowired
 	ConviteRepository conviteRepository;
 
-	// Url: api/convite/save?id_pessoa=1&id_evento=3
+	// Url: api/convite/save?id_pessoa=1&numero=3
 	@RequestMapping("api/convite/save")
 	public String save(@RequestParam("id_pessoa") Long id_pessoa, @RequestParam("id_evento") Long id_evento) {
 		try {
